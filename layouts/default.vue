@@ -4,8 +4,8 @@ const { status, data, signOut, signIn } = useAuth()
 
 <template>
     <div>
-      <h1>objective 3d services</h1>
-      <h3>name might be changed</h3>
+      <navbar />
+      <p>test</p>
       <div style="padding-left: 10px; padding-right: 10px;">
         <slot />
       </div>

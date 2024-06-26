@@ -23,6 +23,7 @@ export default defineEventHandler(async (event) => {
         'created': new Date().toISOString(),
         'expires': new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString(),
         'bids': [],
+        'startingbid': 10,
         'files': [] as { name: string, url: string }[],
         'publicfiles': true
     };

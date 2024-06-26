@@ -5,6 +5,7 @@ definePageMeta({ auth: false })
 <template>
     <div>
         <p>Some default content just for index page </p>
-        <login />
+
+
     </div>
 </template>

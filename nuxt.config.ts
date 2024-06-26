@@ -14,5 +14,5 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ["@sidebase/nuxt-auth"]
+  modules: ["@sidebase/nuxt-auth", '@nuxtjs/tailwindcss'] 
 })
