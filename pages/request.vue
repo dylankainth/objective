@@ -26,7 +26,7 @@
         formData.append('file', this.selectedFile)
   
         try {
-          $fetch('/api/makeRequest', {
+          $fetch('/api/postItemRequest', {
             method: 'POST',
             body: formData
           })

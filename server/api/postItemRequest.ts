@@ -2,6 +2,7 @@
 import { BlobServiceClient } from "@azure/storage-blob";
 import { getServerSession } from '#auth'
 import { CosmosClient } from "@azure/cosmos";
+import {v4 as uuidv4} from 'uuid';
 
 export default defineEventHandler(async (event) => {
 
@@ -13,23 +14,21 @@ export default defineEventHandler(async (event) => {
     const database = client.database("production");
     const container = database.container("bids");
 
+    let myuuid = uuidv4();
+
     var item = {
-        'id': '70b63682-b93a-4c77-aad2-65501347265f',
-        'category': 'gear-surf-surfboards',
-        'name': 'Yamba Surfboard',
-        'quantity': 12,
-        'price': 850.00,
-        'clearance': false
+        'id': myuuid,
+        'person': session.user?.email,
+        'status': 'open',
+        'created': new Date().toISOString(),
+        'expires': new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString(),
+        'bids': [],
+        'files': [] as { name: string, url: string }[],
+        'publicfiles': true
     };
-    
-    var response = await container.items.upsert(item);
-
-    
-
 
     const files = await readMultipartFormData(event);
     files?.forEach((file) => {
-
         // upload to blob
         const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.AZURE_STORAGE_CONNECTION_STRING as string);
 
@@ -41,7 +40,14 @@ export default defineEventHandler(async (event) => {
 
         blockBlobClient.uploadData(file.data);
 
+        item.files.push({
+            'name': blobName as string,
+            'url': blockBlobClient.url
+        });
+
     });
+    
+    var response = await container.items.upsert(item);
 
     return {
         statusCode: 200,
