@@ -5,7 +5,6 @@ const { status, data, signOut, signIn } = useAuth()
 <template>
     <div>
       <navbar />
-      <p>test</p>
       <div style="padding-left: 10px; padding-right: 10px;">
         <slot />
       </div>
